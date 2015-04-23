@@ -30,9 +30,30 @@ double  getuab ( person a, person b)
   int occupation_dif = pow(a.occupation - b.occupation, 2);
   int income_dif = pow(a.income - b.income , 2);
   double result = sqrt(age_dif + gender_dif + marital_dif + race_dif + birth_dif + language_dif + occupation_dif + income_dif);
+  //printf(" nodes %d ,%d = %f\n", a.id, b.id, result);
   return result;
 }
 
+void query1 (int ** matrix, int id, int number, int delta)
+{
+  int min  =2000;
+  int i;
+     //nodeid -1 = index
+     for(i =  0; i < number; i++)
+       {
+	 if (min > matrix[id-1][i] && matrix[id-1][i] > delta){
+	   min  = matrix[id-1][i];
+	 }
+       }
+     printf("\n%d",min);
+     for(i =  0; i < number; i++)
+       {
+	 if (min == matrix[id-1][i]){
+	   printf(",%d", i+1);
+	 }
+       }
+          printf("\n");
+}
 
 
 
@@ -108,8 +129,12 @@ int main(int argc, char ** argv)
        {
 	 for(i = 0 ; i < number; i++)
 	   {
-	     if (i != j)
-	       matrix[j][i] =(int)((1-( getuab(arr[i], arr[j]) / max)) * 100);
+	     if (i != j){
+	       temp =  getuab(arr[i], arr[j]) ;
+	       //printf("%d %d %f", i, j, temp); 
+	       temp /= max;
+	       // printf(" %f\n", temp);
+	       matrix[j][i] =(int)((1-( getuab(arr[i], arr[j]) / max)) * 100);}
 	     else
 	       matrix[j][i] = -25;
 	   }
@@ -122,6 +147,13 @@ int main(int argc, char ** argv)
 	     printf("%d, ", matrix[j][i]);
 	   }
        }
+     free(arr);
+     // query 1 /////////////////////////////////////////////////////
+     query1 (matrix, nodeID, number, (int)(delta1* 100));
+
+
+
+
      printf("\nfuck you mike!\n");
   return 0 ;
 }
