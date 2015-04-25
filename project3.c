@@ -131,7 +131,7 @@ void query6  (int ** matrix, int number, int delta){
   int i;
   int j;
   double g = 0;
-
+  int row;
   for(i =  0; i < number; i++)
     {
       nodes[i] = 0;
@@ -156,7 +156,10 @@ void query6  (int ** matrix, int number, int delta){
 	  }
 	}
     }
-  
+  g = g / number;
+  row =  (int)(g * 100);
+  g = row / 100;
+  printf("%.2f\n",g);
 }
 
 int main(int argc, char ** argv)
@@ -252,8 +255,14 @@ int main(int argc, char ** argv)
      query3 (matrix, nodeID, number, (int)(delta1* 100));
      query4 (matrix, nodeID, number, (int)(delta1* 100));
      query5 (matrix, number, (int)(delta1* 100));
-
+     query6 (matrix, number, (int)(delta1* 100));
+ 
 
      printf("\nfuck you mike!\n");
+
+      for(i = 0; i < number; i++){
+	free(matrix[i]);
+     }
+      free (matrix);
   return 0 ;
 }
