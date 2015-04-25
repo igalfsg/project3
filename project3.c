@@ -3,7 +3,7 @@
 #include <string.h>
 #include <math.h>
 #include <time.h>
-
+#include <stdbool.h>
 
 typedef struct pers {
   int id;
@@ -45,7 +45,7 @@ void query1 (int ** matrix, int id, int number, int delta)
 	   min  = matrix[id-1][i];
 	 }
        }
-     printf("\n%d",min);
+     printf("\n0.%d",min);
      for(i =  0; i < number; i++)
        {
 	 if (min == matrix[id-1][i]){
@@ -54,8 +54,110 @@ void query1 (int ** matrix, int id, int number, int delta)
        }
           printf("\n");
 }
+void query3 (int ** matrix, int id, int number, int delta)
+{
+  int g = 0;
+  int i;
+  int things[number-1];
+     for(i =  0; i < number; i++)
+       {
+	 if (matrix[id-1][i] > delta){
+	   things[g] = i + 1;
+	   g++;
+	 }
+       }
+     printf("%d",g);
+     for(i = 0; i < g; i++)
+       {
+	 printf(",%d",things[i]);
+       }
+     printf("\n");
+}
 
+void query4  (int ** matrix, int id, int number, int delta)
+{
+  bool nodes[number];
+  int i;
+  int j;
+  int g = 0;
 
+  for(i =  0; i < number; i++)
+    {
+      nodes[i] = 0;
+    }
+   for(i =  0; i < number; i++)
+       {
+	 if (matrix[id-1][i] > delta){
+	   for (j= 0; j < number; j++)
+	     {
+	       if(j != id-1){
+		 if (matrix[i][j]>delta){
+		   if (nodes[j]!=1)
+		   g++;
+		   nodes[j] = 1;
+		 }
+	       }
+	     }
+	 }
+       }
+   printf("%d",g);
+ 
+   for(i = 0; i < number; i++)
+     {
+       if(nodes[i] == 1 && i != id+1)
+	 printf(",%d",i+1);
+     }
+   printf("\n");
+}
+void query5  (int ** matrix, int number, int delta){
+  int column;
+  int row;
+  double count;
+  for(row = 0; row < number; row++){
+    for(column = 0; column < number; column++){
+       if (matrix[row][column] > delta){
+	 count++;
+       }
+    }
+  }
+  count = count / number;
+  row =  (int)(count * 100);
+  count = row / 100;
+  printf("%.2f\n",count);
+  
+}
+void query6  (int ** matrix, int number, int delta){
+  bool nodes[number];
+  int i;
+  int j;
+  double g = 0;
+
+  for(i =  0; i < number; i++)
+    {
+      nodes[i] = 0;
+    }
+  for(row = 0; row < number; row++)
+    {
+      for(i =  0; i < number; i++)
+	{
+	  if (matrix[row][i] > delta){
+	    for (j= 0; j < number; j++)
+	      {
+		if(j != row)
+		  {
+		    if (matrix[i][j]>delta)
+		      {
+			if (nodes[j]!=row)
+			  g++;
+			nodes[j] = row;
+		      }
+		  }
+	      }
+	  }
+	}
+    }
+  
+}
 
 int main(int argc, char ** argv)
 {
@@ -80,7 +182,6 @@ int main(int argc, char ** argv)
   float alpha;
   person * arr;
   int ** matrix;
-  //Generate mode
   if (argc != 2)
   {
     printf("\nNot valid option\n");
@@ -127,16 +228,14 @@ int main(int argc, char ** argv)
        }
        for(j = 0; j < number; j++)
        {
-	 for(i = 0 ; i < number; i++)
+	   matrix[j][j] = -25;
+	 for(i = j+1 ; i < number; i++)
 	   {
-	     if (i != j){
-	       temp =  getuab(arr[i], arr[j]) ;
-	       //printf("%d %d %f", i, j, temp); 
-	       temp /= max;
-	       // printf(" %f\n", temp);
-	       matrix[j][i] =(int)((1-( getuab(arr[i], arr[j]) / max)) * 100);}
-	     else
-	       matrix[j][i] = -25;
+	   
+	       matrix[i][j] =(int)((1-( getuab(arr[i], arr[j]) / max)) * 100);
+	       matrix[j][i] =(int)((1-( getuab(arr[i], arr[j]) / max)) * 100);
+	   
+	     
 	   }
        }
      for(j = 0; j < number; j++)
@@ -150,8 +249,9 @@ int main(int argc, char ** argv)
      free(arr);
      // query 1 /////////////////////////////////////////////////////
      query1 (matrix, nodeID, number, (int)(delta1* 100));
-
-
+     query3 (matrix, nodeID, number, (int)(delta1* 100));
+     query4 (matrix, nodeID, number, (int)(delta1* 100));
+     query5 (matrix, number, (int)(delta1* 100));
 
 
      printf("\nfuck you mike!\n");
