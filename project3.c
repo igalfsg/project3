@@ -130,7 +130,7 @@ void query4  (int ** matrix, int id, int number, int delta)
  
    for(i = 0; i < number; i++)
      {
-       if(nodes[i] == 1 && i != id+1)
+       if(nodes[i] == 1 && i != id-1)
 	 printf(",%d",i+1);
      }
    printf("\n");
@@ -148,7 +148,7 @@ void query5  (int ** matrix, int number, int delta){
   }
   count = count / number;
   row =  (int)(count * 100);
-  count = row / 100;
+  count =(double) row / 100;
   printf("%.2f\n",count);
   
 }
@@ -184,7 +184,7 @@ void query6  (int ** matrix, int number, int delta){
     }
   g = g / number;
   row =  (int)(g * 100);
-  g = row / 100;
+  g = (double)row / 100;
   printf("%.2f\n",g);
 }
 
@@ -220,12 +220,12 @@ int main(int argc, char ** argv)
 
   
   
-    printf("Openning Source File: %s\n\n",argv[1]);
+   
     FILE * fptr = fopen(argv[1],"r");
     if (fptr == NULL)
       return EXIT_FAILURE;
     inputnum = fscanf(fptr ,"%d,%f,%f,%d,%f", &number, &delta1, &delta2, &nodeID, &alpha);
-    printf("results: %d, %f, %f, %d, %f\n", number, delta1, delta2, nodeID, alpha);
+    //printf("results: %d, %f, %f, %d, %f\n", number, delta1, delta2, nodeID, alpha);
     arr = malloc(sizeof(person)*number);
     inputnum = 10;
     for(i = 0; i < number; i++){
@@ -239,7 +239,7 @@ int main(int argc, char ** argv)
       arr[i].language = language;
       arr[i].occupation = occupation;
       arr[i].income = income;
-      printf("input: %d, %d, %d, %d, %d, %d, %d, %d, %d\n", userid, age, gender, marital, race, birth, language, occupation, income);
+      //printf("input: %d, %d, %d, %d, %d, %d, %d, %d, %d\n", userid, age, gender, marital, race, birth, language, occupation, income);
   }
     matrix = malloc(number * sizeof(int*));
      for(i = 0; i < number; i++){
@@ -267,14 +267,14 @@ int main(int argc, char ** argv)
 	     
 	   }
        }
-     for(j = 0; j < number; j++)
+       /*   for(j = 0; j < number; j++)
        {
 	 printf("\n row %d: ", j+1 );
 	 for(i = 0 ; i < number; i++)
 	   {
 	     printf("%d, ", matrix[j][i]);
 	   }
-       }
+       }*/
      free(arr);
      // query 1 /////////////////////////////////////////////////////
      query1 (matrix, nodeID, number, (int)(delta1* 100));
