@@ -54,6 +54,32 @@ void query1 (int ** matrix, int id, int number, int delta)
        }
           printf("\n");
 }
+void query2 (int ** matrix, int id, int number, int delta, int alpha, int * nodes)
+{
+  int row;
+  if (alpha < delta){return;}
+  for (row = 0; row < number; row++)
+    {
+      if(matrix[id - 1][row] > delta && matrix[id-1][row] < alpha && nodes[row] != -21 && row != id-1){
+	nodes[row] = 1;
+	query2(matrix, row+1, number, delta, alpha - matrix[id-1][row], nodes);
+      }
+
+    }
+  
+
+}
+void print_nodes (int * nodes, int number)
+{
+  int counter = 0;
+  int i;
+  for(i = 0; i<number; i++)
+    {
+      if (nodes[i] == 1)
+	counter++;
+    }
+  printf("%d\n",counter);
+}
 void query3 (int ** matrix, int id, int number, int delta)
 {
   int g = 0;
@@ -252,14 +278,19 @@ int main(int argc, char ** argv)
      free(arr);
      // query 1 /////////////////////////////////////////////////////
      query1 (matrix, nodeID, number, (int)(delta1* 100));
+     int * nodes = malloc(number * sizeof(int));
+     for(race = 0; race < number; race++){
+       nodes[race]=0;
+     }
+     nodes[nodeID-1] = -21;
+     query2 (matrix, nodeID, number, (int)(delta1* 100),(int)(alpha* 100),  nodes);
+     print_nodes(nodes, number);
+     free(nodes);
      query3 (matrix, nodeID, number, (int)(delta1* 100));
      query4 (matrix, nodeID, number, (int)(delta1* 100));
      query5 (matrix, number, (int)(delta1* 100));
      query6 (matrix, number, (int)(delta1* 100));
  
-
-     printf("\nfuck you mike!\n");
-
       for(i = 0; i < number; i++){
 	free(matrix[i]);
      }
