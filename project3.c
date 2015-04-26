@@ -153,14 +153,14 @@ void query5  (int ** matrix, int number, int delta){
   
 }
 void query6  (int ** matrix, int number, int delta){
-  bool nodes[number];
+  int nodes[number];
   int i;
   int j;
   double g = 0;
   int row;
   for(i =  0; i < number; i++)
     {
-      nodes[i] = 0;
+      nodes[i] = -15;
     }
   for(row = 0; row < number; row++)
     {
@@ -291,6 +291,21 @@ int main(int argc, char ** argv)
      query5 (matrix, number, (int)(delta1* 100));
      query6 (matrix, number, (int)(delta1* 100));
  
+
+
+     query1 (matrix, nodeID, number, (int)(delta2* 100));
+     nodes = malloc(number * sizeof(int));
+     for(race = 0; race < number; race++){
+       nodes[race]=0;
+     }
+     nodes[nodeID-1] = -21;
+     query2 (matrix, nodeID, number, (int)(delta2* 100),(int)(alpha* 100),  nodes);
+     print_nodes(nodes, number);
+     free(nodes);
+     query3 (matrix, nodeID, number, (int)(delta2* 100));
+     query4 (matrix, nodeID, number, (int)(delta2* 100));
+     query5 (matrix, number, (int)(delta2* 100));
+     query6 (matrix, number, (int)(delta2* 100));
       for(i = 0; i < number; i++){
 	free(matrix[i]);
      }
